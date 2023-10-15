@@ -1,11 +1,10 @@
 import React, { useMemo, useCallback } from "react";
 import ImageList from "@mui/material/ImageList";
-import ImageListItem from "@mui/material/ImageListItem";
-import ImageListItemBar from "@mui/material/ImageListItemBar";
 import Button from "@mui/material/Button";
 import useSWR from "swr/infinite";
 import { CircularProgress } from "@mui/material";
 import { Waypoint } from "react-waypoint";
+import ObservationSummary from "./ObservationSummary";
 
 export default function Observations({ setCurrentFieldTrip, fieldTrip }) {
   const date = useMemo(() => new Date(fieldTrip.date).toDateString(), [fieldTrip.date]);
@@ -33,19 +32,7 @@ export default function Observations({ setCurrentFieldTrip, fieldTrip }) {
         {fieldTrip.title} - {date}
       </h1>
       <ImageList cols={5}>
-        {data?.map(page =>
-          page.results.map(item => (
-            <ImageListItem key={item.id}>
-              <img
-                srcSet={`https://inaturalist-open-data.s3.amazonaws.com/photos/${item.photos[0].id}/square.jpeg?w=248&fit=crop&auto=format&dpr=2 2x`}
-                src={`https://inaturalist-open-data.s3.amazonaws.com/photos/${item.photos[0].id}/square.jpeg?w=248&fit=crop&auto=format`}
-                alt={item.taxon.name}
-                loading="lazy"
-              />
-              <ImageListItemBar title={item.taxon.name} subtitle={item.user.name_autocomplete} />
-            </ImageListItem>
-          ))
-        )}
+        {data?.map(page => page.results.map(item => <ObservationSummary key={item.id} observation={item} />))}
         {hasMore ? (
           <Waypoint
             onEnter={() => {
