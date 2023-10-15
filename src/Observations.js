@@ -1,89 +1,57 @@
-import * as React from "react";
+import React, { useState, useMemo } from "react";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
 import ImageListItemBar from "@mui/material/ImageListItemBar";
 import Button from "@mui/material/Button";
+import useSWR from "swr";
+import { CircularProgress } from "@mui/material";
+import { Waypoint } from "react-waypoint";
 
-export default function Observations({ setCurrentFieldTrip }) {
+function Page({ fieldTrip, index }) {
+  const { data: observations } = useSWR(
+    `https://api.inaturalist.org/v1/observations?order_by=id&order=asc&user_id=${fieldTrip.userIds}&d1=${fieldTrip.date}&d2=${fieldTrip.date}&per_page=15&page=${index}`
+  );
+  if (!observations) {
+    return (
+      <div>
+        <CircularProgress />
+      </div>
+    );
+  }
+  return observations.results.map(item => (
+    <ImageListItem key={item.img}>
+      <img
+        srcSet={`https://inaturalist-open-data.s3.amazonaws.com/photos/${item.photos[0].id}/square.jpeg?w=248&fit=crop&auto=format&dpr=2 2x`}
+        src={`https://inaturalist-open-data.s3.amazonaws.com/photos/${item.photos[0].id}/square.jpeg?w=248&fit=crop&auto=format`}
+        alt={item.taxon.name}
+        loading="lazy"
+      />
+      <ImageListItemBar title={item.taxon.name} subtitle={item.user.name_autocomplete} />
+    </ImageListItem>
+  ));
+}
+export default function Observations({ setCurrentFieldTrip, fieldTrip }) {
+  const [cnt, setCnt] = useState(1);
+  const date = useMemo(() => new Date(fieldTrip.date).toDateString(), [fieldTrip.date]);
+
+  const pages = [];
+  for (let i = 1; i <= cnt; i++) {
+    pages.push(<Page index={i} key={i} fieldTrip={fieldTrip} />);
+  }
   return (
     <>
       <Button onClick={() => setCurrentFieldTrip(null)}>Back</Button>
-      <ImageList sx={{ width: 500, height: 450 }}>
-        {itemData.map(item => (
-          <ImageListItem key={item.img}>
-            <img
-              srcSet={`${item.img}?w=248&fit=crop&auto=format&dpr=2 2x`}
-              src={`${item.img}?w=248&fit=crop&auto=format`}
-              alt={item.title}
-              loading="lazy"
-            />
-            <ImageListItemBar title={item.title} subtitle={<span>by: {item.author}</span>} position="below" />
-          </ImageListItem>
-        ))}
+      <h1>
+        {fieldTrip.title} - {date}
+      </h1>
+      <ImageList cols={5}>
+        {pages}
+        <Waypoint
+          onEnter={() => {
+            setCnt(cnt + 1);
+          }}
+        />
       </ImageList>
     </>
   );
 }
-
-const itemData = [
-  {
-    img: "https://images.unsplash.com/photo-1551963831-b3b1ca40c98e",
-    title: "Breakfast",
-    author: "@bkristastucchio"
-  },
-  {
-    img: "https://images.unsplash.com/photo-1551782450-a2132b4ba21d",
-    title: "Burger",
-    author: "@rollelflex_graphy726"
-  },
-  {
-    img: "https://images.unsplash.com/photo-1522770179533-24471fcdba45",
-    title: "Camera",
-    author: "@helloimnik"
-  },
-  {
-    img: "https://images.unsplash.com/photo-1444418776041-9c7e33cc5a9c",
-    title: "Coffee",
-    author: "@nolanissac"
-  },
-  {
-    img: "https://images.unsplash.com/photo-1533827432537-70133748f5c8",
-    title: "Hats",
-    author: "@hjrc33"
-  },
-  {
-    img: "https://images.unsplash.com/photo-1558642452-9d2a7deb7f62",
-    title: "Honey",
-    author: "@arwinneil"
-  },
-  {
-    img: "https://images.unsplash.com/photo-1516802273409-68526ee1bdd6",
-    title: "Basketball",
-    author: "@tjdragotta"
-  },
-  {
-    img: "https://images.unsplash.com/photo-1518756131217-31eb79b20e8f",
-    title: "Fern",
-    author: "@katie_wasserman"
-  },
-  {
-    img: "https://images.unsplash.com/photo-1597645587822-e99fa5d45d25",
-    title: "Mushrooms",
-    author: "@silverdalex"
-  },
-  {
-    img: "https://images.unsplash.com/photo-1567306301408-9b74779a11af",
-    title: "Tomato basil",
-    author: "@shelleypauls"
-  },
-  {
-    img: "https://images.unsplash.com/photo-1471357674240-e1a485acb3e1",
-    title: "Sea star",
-    author: "@peterlaster"
-  },
-  {
-    img: "https://images.unsplash.com/photo-1589118949245-7d38baf380d6",
-    title: "Bike",
-    author: "@southside_customs"
-  }
-];

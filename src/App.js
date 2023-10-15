@@ -5,6 +5,7 @@ import Box from "@mui/material/Box";
 import Link from "@mui/material/Link";
 import FieldTrips from "./FieldTrips";
 import Observations from "./Observations";
+import { SWRConfig } from "swr";
 
 function Copyright() {
   return (
@@ -22,17 +23,23 @@ function Copyright() {
 export default function App() {
   const [currentFieldTrip, setCurrentFieldTrip] = useState(null);
   return (
-    <Container>
-      {currentFieldTrip === null && (
-        <Box sx={{ my: 4 }}>
-          <Typography variant="h4" component="h1" gutterBottom>
-            Field Trips
-          </Typography>
-          <FieldTrips setCurrentFieldTrip={setCurrentFieldTrip} />
-          <Copyright />
-        </Box>
-      )}
-      {currentFieldTrip && <Observations setCurrentFieldTrip={setCurrentFieldTrip} fieldTrip={currentFieldTrip} />}
-    </Container>
+    <SWRConfig
+      value={{
+        fetcher: (resource, init) => fetch(resource, init).then(res => res.json())
+      }}
+    >
+      <Container>
+        {currentFieldTrip === null && (
+          <Box sx={{ my: 4 }}>
+            <Typography variant="h4" component="h1" gutterBottom>
+              Field Trips
+            </Typography>
+            <FieldTrips setCurrentFieldTrip={setCurrentFieldTrip} />
+            <Copyright />
+          </Box>
+        )}
+        {currentFieldTrip && <Observations setCurrentFieldTrip={setCurrentFieldTrip} fieldTrip={currentFieldTrip} />}
+      </Container>
+    </SWRConfig>
   );
 }
