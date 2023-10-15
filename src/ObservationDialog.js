@@ -3,18 +3,21 @@ import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
+import ImageList from "@mui/material/ImageList";
+import ImageListItem from "@mui/material/ImageListItem";
+import Grid from "@mui/material/Grid";
 
 export default function ObservationDialog({ open, setOpen, observation }) {
   const handleClose = () => {
     setOpen(false);
   };
-  console.log(observation);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
+
+  const [lat, lng] = observation.location?.split(",");
 
   return (
     <Dialog
@@ -24,25 +27,66 @@ export default function ObservationDialog({ open, setOpen, observation }) {
       aria-labelledby="scroll-dialog-title"
       aria-describedby="scroll-dialog-description"
       fullScreen={fullScreen}
+      maxWidth="md"
     >
       <DialogTitle id="scroll-dialog-title">Observation</DialogTitle>
       <DialogContent dividers>
-        <DialogContentText id="scroll-dialog-description" tabIndex={-1}>
-          <img
-            srcSet={`https://inaturalist-open-data.s3.amazonaws.com/photos/${observation.photos[0].id}/medium.jpeg?w=248&fit=crop&auto=format&dpr=2 2x`}
-            src={`https://inaturalist-open-data.s3.amazonaws.com/photos/${observation.photos[0].id}/medium.jpeg?w=248&fit=crop&auto=format`}
-            alt={observation.taxon.name}
-            loading="lazy"
-          />
-          <h1>{observation.taxon.name}</h1>
-          <p>{observation.user.name_autocomplete}</p>
-          <p>{observation.description}</p>
-          <p>
-            <a href={observation.uri} target="_blank" rel="noreferrer">
-              View in iNaturalist
-            </a>
-          </p>
-        </DialogContentText>
+        <ImageList cols={5}>
+          {observation.photos.map(photo => (
+            <ImageListItem key={photo.id} sx={{ width: 350, height: 400 }}>
+              <img
+                srcSet={`https://inaturalist-open-data.s3.amazonaws.com/photos/${photo.id}/medium.jpeg?w=248&fit=crop&auto=format&dpr=2 2x`}
+                src={`https://inaturalist-open-data.s3.amazonaws.com/photos/${photo.id}/medium.jpeg?w=248&fit=crop&auto=format`}
+                alt={observation.taxon.name}
+                loading="lazy"
+              />
+            </ImageListItem>
+          ))}
+        </ImageList>
+        <h1>{observation.taxon.name}</h1>
+        <Grid container>
+          <Grid item xs={2}>
+            <b>Common name:</b>
+          </Grid>
+          <Grid item xs={10}>
+            {observation.taxon.preferred_common_name}
+          </Grid>
+          <Grid item xs={2}>
+            <b>Observed by:</b>
+          </Grid>
+          <Grid item xs={10}>
+            {observation.user.name_autocomplete}
+          </Grid>
+          <Grid item xs={2}>
+            <b>Observed on:</b>
+          </Grid>
+          <Grid item xs={10}>
+            {new Date(observation.observed_on).toDateString()}
+          </Grid>
+          <Grid item xs={2}>
+            <b>Latitude:</b>
+          </Grid>
+          <Grid item xs={10}>
+            {lat}
+          </Grid>
+          <Grid item xs={2}>
+            <b>Longitude:</b>
+          </Grid>
+          <Grid item xs={10}>
+            {lng}
+          </Grid>
+          <Grid item xs={2}>
+            <b>Description:</b>
+          </Grid>
+          <Grid item xs={10}>
+            {observation.description}
+          </Grid>
+        </Grid>
+        <p>
+          <a href={observation.uri} target="_blank" rel="noreferrer">
+            View in iNaturalist
+          </a>
+        </p>
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClose}>Close</Button>

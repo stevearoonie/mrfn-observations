@@ -13,9 +13,9 @@ export default function Observations({ setCurrentFieldTrip, fieldTrip }) {
       if (previousPageData && !previousPageData.results.length) {
         return null; // reached the end
       }
-      const ret = `https://api.inaturalist.org/v1/observations?order_by=id&order=asc&user_id=${fieldTrip.userIds}&d1=${
-        fieldTrip.date
-      }&d2=${fieldTrip.date}&per_page=15&page=${pageIndex + 1}`;
+      const ret = `https://api.inaturalist.org/v1/observations?order_by=observed_on&order=asc&user_id=${
+        fieldTrip.userIds
+      }&d1=${fieldTrip.date}&d2=${fieldTrip.date}&per_page=15&page=${pageIndex + 1}`;
       return ret;
     },
     [fieldTrip]

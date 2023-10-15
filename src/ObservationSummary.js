@@ -7,10 +7,10 @@ export default function ObservationSummary({ observation }) {
   const [open, setOpen] = useState(false);
   return (
     <>
-      <ImageListItem onClick={() => setOpen(true)}>
+      <ImageListItem onClick={() => setOpen(true)} sx={{ cursor: "pointer" }}>
         <img
-          srcSet={`https://inaturalist-open-data.s3.amazonaws.com/photos/${observation.photos[0].id}/square.jpeg?w=248&fit=crop&auto=format&dpr=2 2x`}
-          src={`https://inaturalist-open-data.s3.amazonaws.com/photos/${observation.photos[0].id}/square.jpeg?w=248&fit=crop&auto=format`}
+          srcSet={`https://inaturalist-open-data.s3.amazonaws.com/photos/${observation.photos[0].id}/small.jpeg?w=248&fit=crop&auto=format&dpr=2 2x`}
+          src={`https://inaturalist-open-data.s3.amazonaws.com/photos/${observation.photos[0].id}/small.jpeg?w=248&fit=crop&auto=format`}
           alt={observation.taxon.name}
           loading="lazy"
         />
