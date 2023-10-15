@@ -15,36 +15,6 @@ const fieldTrips = [
     title: "Conglomerate Gully, Riddells Creek",
     date: "2023-10-22",
     image: "326165397/small.jpeg"
-  },
-  {
-    title: "Quarries Road, Woodend",
-    date: "2023-10-08",
-    image: "326183990/small.jpeg"
-  },
-  {
-    title: "Conglomerate Gully, Riddells Creek",
-    date: "2023-10-22",
-    image: "326165397/small.jpeg"
-  },
-  {
-    title: "Quarries Road, Woodend",
-    date: "2023-10-08",
-    image: "326183990/small.jpeg"
-  },
-  {
-    title: "Conglomerate Gully, Riddells Creek",
-    date: "2023-10-22",
-    image: "326165397/small.jpeg"
-  },
-  {
-    title: "Quarries Road, Woodend",
-    date: "2023-10-08",
-    image: "326183990/small.jpeg"
-  },
-  {
-    title: "Conglomerate Gully, Riddells Creek",
-    date: "2023-10-22",
-    image: "326165397/small.jpeg"
   }
 ];
 

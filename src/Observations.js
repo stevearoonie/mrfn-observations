@@ -52,6 +52,7 @@ export default function Observations({ setCurrentFieldTrip, fieldTrip }) {
           }}
         />
       </ImageList>
+      <Button onClick={() => setCurrentFieldTrip(null)}>Back</Button>
     </>
   );
 }
