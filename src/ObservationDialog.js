@@ -17,6 +17,8 @@ export default function ObservationDialog({ open, setOpen, observation }) {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
 
+  console.log(observation);
+
   const [lat, lng] = observation.location?.split(",");
 
   return (
@@ -35,27 +37,26 @@ export default function ObservationDialog({ open, setOpen, observation }) {
           {observation.photos.map(photo => (
             <ImageListItem key={photo.id} sx={{ width: 350, height: 400 }}>
               <img
-                srcSet={`https://inaturalist-open-data.s3.amazonaws.com/photos/${photo.id}/medium.jpeg?w=248&fit=crop&auto=format&dpr=2 2x`}
-                src={`https://inaturalist-open-data.s3.amazonaws.com/photos/${photo.id}/medium.jpeg?w=248&fit=crop&auto=format`}
-                alt={observation.taxon.name}
+                src={photo.url.replace("square", "medium")}
+                alt={observation.taxon?.name ?? "Not yet identified"}
                 loading="lazy"
               />
             </ImageListItem>
           ))}
         </ImageList>
-        <h1>{observation.taxon.name}</h1>
+        <h1>{observation.taxon?.name ?? "Not yet identified"}</h1>
         <Grid container>
           <Grid item xs={2}>
             <b>Common name:</b>
           </Grid>
           <Grid item xs={10}>
-            {observation.taxon.preferred_common_name}
+            {observation.taxon?.preferred_common_name ?? "Not yet identified"}
           </Grid>
           <Grid item xs={2}>
             <b>Observed by:</b>
           </Grid>
           <Grid item xs={10}>
-            {observation.user.name_autocomplete}
+            {observation.user.name_autocomplete ?? observation.user.login}
           </Grid>
           <Grid item xs={2}>
             <b>Observed on:</b>

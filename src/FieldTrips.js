@@ -5,7 +5,7 @@ import FieldTripSummary from "./FieldTripSummary";
 import useSWR from "swr";
 
 export default function FieldTrips({ setCurrentFieldTrip }) {
-  const { data: fieldTrips } = useSWR("./fieldTrips.json");
+  const { data: fieldTrips } = useSWR("/fieldTrips.json");
   return fieldTrips ? (
     <Box sx={{ flexGrow: 1, padding: 5 }}>
       <Grid container spacing={2}>
