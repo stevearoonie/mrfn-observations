@@ -17,8 +17,6 @@ export default function ObservationDialog({ open, setOpen, observation }) {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
 
-  console.log(observation);
-
   const [lat, lng] = observation.location?.split(",");
 
   return (
