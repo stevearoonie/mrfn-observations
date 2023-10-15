@@ -4,10 +4,10 @@ import ImageListItem from "@mui/material/ImageListItem";
 import ImageListItemBar from "@mui/material/ImageListItemBar";
 import Button from "@mui/material/Button";
 
-export default function Observations({ setMode }) {
+export default function Observations({ setCurrentFieldTrip }) {
   return (
     <>
-      <Button onClick={() => setMode("fieldTrips")}>Back</Button>
+      <Button onClick={() => setCurrentFieldTrip(null)}>Back</Button>
       <ImageList sx={{ width: 500, height: 450 }}>
         {itemData.map(item => (
           <ImageListItem key={item.img}>

@@ -7,53 +7,54 @@ import FieldTripSummary from "./FieldTripSummary";
 const fieldTrips = [
   {
     title: "Quarries Road, Woodend",
-    date: "October 8, 2023",
-    image: "326183990/small.jpeg"
+    date: "2023-10-08",
+    image: "326183990/small.jpeg",
+    userIds: "stevearoonie"
   },
   {
     title: "Conglomerate Gully, Riddells Creek",
-    date: "October 22, 2023",
+    date: "2023-10-22",
     image: "326165397/small.jpeg"
   },
   {
     title: "Quarries Road, Woodend",
-    date: "October 8, 2023",
+    date: "2023-10-08",
     image: "326183990/small.jpeg"
   },
   {
     title: "Conglomerate Gully, Riddells Creek",
-    date: "October 22, 2023",
+    date: "2023-10-22",
     image: "326165397/small.jpeg"
   },
   {
     title: "Quarries Road, Woodend",
-    date: "October 8, 2023",
+    date: "2023-10-08",
     image: "326183990/small.jpeg"
   },
   {
     title: "Conglomerate Gully, Riddells Creek",
-    date: "October 22, 2023",
+    date: "2023-10-22",
     image: "326165397/small.jpeg"
   },
   {
     title: "Quarries Road, Woodend",
-    date: "October 8, 2023",
+    date: "2023-10-08",
     image: "326183990/small.jpeg"
   },
   {
     title: "Conglomerate Gully, Riddells Creek",
-    date: "October 22, 2023",
+    date: "2023-10-22",
     image: "326165397/small.jpeg"
   }
 ];
 
-export default function FieldTrips({ setMode }) {
+export default function FieldTrips({ setCurrentFieldTrip }) {
   return (
     <Box sx={{ flexGrow: 1, padding: 5 }}>
       <Grid container spacing={2}>
         {fieldTrips.map(fieldTrip => (
           <Grid item xs={3}>
-            <FieldTripSummary setMode={setMode} fieldTrip={fieldTrip} />
+            <FieldTripSummary setCurrentFieldTrip={setCurrentFieldTrip} fieldTrip={fieldTrip} />
           </Grid>
         ))}
       </Grid>

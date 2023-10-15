@@ -20,19 +20,19 @@ function Copyright() {
 }
 
 export default function App() {
-  const [mode, setMode] = useState("fieldTrips");
+  const [currentFieldTrip, setCurrentFieldTrip] = useState(null);
   return (
     <Container>
-      {mode === "fieldTrips" && (
+      {currentFieldTrip === null && (
         <Box sx={{ my: 4 }}>
           <Typography variant="h4" component="h1" gutterBottom>
             Field Trips
           </Typography>
-          <FieldTrips setMode={setMode} />
+          <FieldTrips setCurrentFieldTrip={setCurrentFieldTrip} />
           <Copyright />
         </Box>
       )}
-      {mode === "observations" && <Observations setMode={setMode} />}
+      {currentFieldTrip && <Observations setCurrentFieldTrip={setCurrentFieldTrip} fieldTrip={currentFieldTrip} />}
     </Container>
   );
 }
