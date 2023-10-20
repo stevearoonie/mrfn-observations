@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.js": "/mrfn-observations/static/js/main.05c4d8d3.js",
+    "main.js": "/mrfn-observations/static/js/main.3fac7c6b.js",
     "index.html": "/mrfn-observations/index.html",
-    "main.05c4d8d3.js.map": "/mrfn-observations/static/js/main.05c4d8d3.js.map"
+    "main.3fac7c6b.js.map": "/mrfn-observations/static/js/main.3fac7c6b.js.map"
   },
   "entrypoints": [
-    "static/js/main.05c4d8d3.js"
+    "static/js/main.3fac7c6b.js"
   ]
 }
