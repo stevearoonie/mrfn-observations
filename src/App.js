@@ -31,6 +31,9 @@ export default function App() {
       <Container>
         {currentFieldTrip === null && (
           <Box sx={{ my: 4 }}>
+            <Typography variant="overline">
+              <a href="https://macedonrangesfieldnaturalists.org/">Home</a>
+            </Typography>
             <Typography variant="h4" component="h1" gutterBottom>
               Field Trips
             </Typography>

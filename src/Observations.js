@@ -1,4 +1,4 @@
-import React, { useMemo, useCallback } from "react";
+import React, { useMemo, useCallback, useRef } from "react";
 import ImageList from "@mui/material/ImageList";
 import Button from "@mui/material/Button";
 import useSWR from "swr/infinite";
@@ -7,6 +7,7 @@ import { Waypoint } from "react-waypoint";
 import ObservationSummary from "./ObservationSummary";
 
 export default function Observations({ setCurrentFieldTrip, fieldTrip }) {
+  const divRef = useRef(null);
   const date = useMemo(() => new Date(fieldTrip.date).toDateString(), [fieldTrip.date]);
   const getKey = useCallback(
     (pageIndex, previousPageData) => {
@@ -21,29 +22,34 @@ export default function Observations({ setCurrentFieldTrip, fieldTrip }) {
     [fieldTrip]
   );
 
-  const { data, setSize, size } = useSWR(getKey);
+  const { data, setSize, size, isLoading } = useSWR(getKey);
 
   const hasMore = !data || data.length * 15 < data[0].total_results;
 
   return (
-    <>
+    <div ref={divRef}>
       <Button onClick={() => setCurrentFieldTrip(null)}>Back</Button>
       <h1>
         {fieldTrip.title} - {date}
       </h1>
-      <ImageList cols={5}>
-        {data?.map(page => page.results.map(item => <ObservationSummary key={item.id} observation={item} />))}
-        {hasMore ? (
-          <Waypoint
-            onEnter={() => {
+      {data?.length && (
+        <ImageList cols={5} sx={{ overflow: "hidden" }}>
+          {data?.map(page => page.results.map(item => <ObservationSummary key={item.id} observation={item} />))}
+        </ImageList>
+      )}
+      {isLoading ? (
+        <CircularProgress />
+      ) : (
+        <Waypoint
+          bottomOffset={-100}
+          onEnter={() => {
+            if (hasMore) {
               setSize(size + 1);
-            }}
-          >
-            <CircularProgress />
-          </Waypoint>
-        ) : null}
-      </ImageList>
+            }
+          }}
+        />
+      )}
       <Button onClick={() => setCurrentFieldTrip(null)}>Back</Button>
-    </>
+    </div>
   );
 }
