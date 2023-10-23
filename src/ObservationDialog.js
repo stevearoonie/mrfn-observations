@@ -17,8 +17,6 @@ export default function ObservationDialog({ open, setOpen, observation }) {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
 
-  const [lat, lng] = observation.location?.split(",");
-
   return (
     <Dialog
       open={open}
@@ -61,18 +59,6 @@ export default function ObservationDialog({ open, setOpen, observation }) {
           </Grid>
           <Grid item xs={10}>
             {new Date(observation.observed_on).toDateString()}
-          </Grid>
-          <Grid item xs={2}>
-            <b>Latitude:</b>
-          </Grid>
-          <Grid item xs={10}>
-            {lat}
-          </Grid>
-          <Grid item xs={2}>
-            <b>Longitude:</b>
-          </Grid>
-          <Grid item xs={10}>
-            {lng}
           </Grid>
           <Grid item xs={2}>
             <b>Description:</b>
